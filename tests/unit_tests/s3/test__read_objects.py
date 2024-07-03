@@ -2,22 +2,19 @@ import boto3
 from moto import mock_aws
 
 from files_api.s3.read_objects import (
-    fetch_s3_object,
     fetch_s3_objects_metadata,
     fetch_s3_objects_using_page_token,
     object_exists_in_s3,
 )
-from files_api.s3.write_objects import upload_s3_object
 from tests.consts import TEST_BUCKET_NAME
 
 
 @mock_aws()
 def test_object_exists_in_s3(mocked_aws: None):
-
-    upload_s3_object(bucket_name=TEST_BUCKET_NAME, object_key="test.txt", file_content="Test existing files")
-
-    assert object_exists_in_s3(bucket_name=TEST_BUCKET_NAME, object_key="test.txt") is True
-    assert object_exists_in_s3(bucket_name=TEST_BUCKET_NAME, object_key="nonexistentfile.txt") is False
+    s3_client = boto3.client("s3")
+    s3_client.put_object(Bucket=TEST_BUCKET_NAME, Key="testfile.txt", Body="test content")
+    assert object_exists_in_s3(TEST_BUCKET_NAME, "testfile.txt") is True
+    assert object_exists_in_s3(TEST_BUCKET_NAME, "nonexistent.txt") is False
 
 
 @mock_aws()

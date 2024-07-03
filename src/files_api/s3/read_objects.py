@@ -4,8 +4,6 @@ from typing import Optional
 
 import boto3
 
-from files_api import s3
-
 try:
     from mypy_boto3_s3 import S3Client
     from mypy_boto3_s3.type_defs import (
@@ -21,7 +19,6 @@ DEFAULT_MAX_KEYS = 1_000
 def object_exists_in_s3(bucket_name: str, object_key: str, s3_client: Optional["S3Client"] = None) -> bool:
     """
     Check if an object exists in the S3 bucket using head_object.
-
     :param bucket_name: Name of the S3 bucket.
     :param object_key: Key of the object to check.
     :param s3_client: Optional S3 client to use. If not provided, a new client will be created.
@@ -67,7 +64,6 @@ def fetch_s3_objects_using_page_token(
 ) -> tuple[list["ObjectTypeDef"], Optional[str]]:
     """
     Fetch list of object keys and their metadata using a continuation token.
-
     :param bucket_name: Name of the S3 bucket to list objects from.
     :param continuation_token: Token for fetching the next page of results where the last page left off.
     :param max_keys: Maximum number of keys to return within this page.
