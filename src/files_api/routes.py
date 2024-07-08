@@ -34,7 +34,6 @@ ROUTER = APIRouter(tags=["Files"])
         status.HTTP_200_OK: {"model": PutFileResponse},
         status.HTTP_201_CREATED: {"model": PutFileResponse},
     },
-    operation_id="put_file",
 )
 async def upload_file(
     request: Request, file_path: str, file_content: UploadFile, response: Response

@@ -14,7 +14,7 @@ def test_upload_file_happy_path(client: TestClient):
 
     response = client.put(
         f"/files/{test_file_path}",
-        files={"file": (test_file_path, test_file_content, test_file_content_type)},
+        files={"file_content": (test_file_path, test_file_content, test_file_content_type)},
     )
 
     assert response.status_code == status.HTTP_201_CREATED
@@ -27,7 +27,7 @@ def test_upload_file_happy_path(client: TestClient):
     updated_content = b"updated content"
     response = client.put(
         f"/files/{test_file_path}",
-        files={"file": (test_file_path, updated_content, test_file_content_type)},
+        files={"file_content": (test_file_path, updated_content, test_file_content_type)},
     )
 
     assert response.status_code == status.HTTP_200_OK
@@ -42,7 +42,7 @@ def test_list_files_with_pagination(client: TestClient):
     for i in range(15):
         client.put(
             f"/files/file{i}.txt",
-            files={"file": (f"file{i}.txt", TEST_FILE_CONTENT, TEST_FILE_CONTENT_TYPE)},
+            files={"file_content": (f"file{i}.txt", TEST_FILE_CONTENT, TEST_FILE_CONTENT_TYPE)},
         )
     # List files with page size 10
     response = client.get("/files?page_size=10")
@@ -56,7 +56,7 @@ def test_get_file_metadata(client: TestClient):
     # Upload a file
     client.put(
         f"/files/{TEST_FILE_PATH}",
-        files={"file": (TEST_FILE_PATH, TEST_FILE_CONTENT, TEST_FILE_CONTENT_TYPE)},
+        files={"file_content": (TEST_FILE_PATH, TEST_FILE_CONTENT, TEST_FILE_CONTENT_TYPE)},
     )
     # Get file metadata
     response = client.head(f"/files/{TEST_FILE_PATH}")
@@ -71,7 +71,7 @@ def test_get_file(client: TestClient):
     # Upload a file
     client.put(
         f"/files/{TEST_FILE_PATH}",
-        files={"file": (TEST_FILE_PATH, TEST_FILE_CONTENT, TEST_FILE_CONTENT_TYPE)},
+        files={"file_content": (TEST_FILE_PATH, TEST_FILE_CONTENT, TEST_FILE_CONTENT_TYPE)},
     )
     # Get file
     response = client.get(f"/files/{TEST_FILE_PATH}")
@@ -83,7 +83,7 @@ def test_delete_file(client: TestClient):
 
     response = client.put(
         f"/files/{TEST_FILE_PATH}",
-        files={"file": (TEST_FILE_PATH, TEST_FILE_CONTENT, TEST_FILE_CONTENT_TYPE)},
+        files={"file_content": (TEST_FILE_PATH, TEST_FILE_CONTENT, TEST_FILE_CONTENT_TYPE)},
     )
 
     response = client.delete(f"/files/{TEST_FILE_PATH}")
