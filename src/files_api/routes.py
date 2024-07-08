@@ -25,15 +25,24 @@ from files_api.schemas import (
 )
 from files_api.settings import Settings
 
-ROUTER = APIRouter()
+ROUTER = APIRouter(tags=["Files"])
 
 
-@ROUTER.put("/files/{file_path:path}")
-async def upload_file(request: Request, file_path: str, file: UploadFile, response: Response) -> PutFileResponse:
+@ROUTER.put(
+    "/files/{file_path:path}",
+    responses={
+        status.HTTP_200_OK: {"model": PutFileResponse},
+        status.HTTP_201_CREATED: {"model": PutFileResponse},
+    },
+    operation_id="put_file",
+)
+async def upload_file(
+    request: Request, file_path: str, file_content: UploadFile, response: Response
+) -> PutFileResponse:
     """Upload a file."""
     settings: Settings = request.app.state.settings
 
-    file_bytes = await file.read()
+    file_bytes = await file_content.read()
 
     object_already_exists_at_path = object_exists_in_s3(settings.s3_bucket_name, object_key=file_path)
     if object_already_exists_at_path:
@@ -47,13 +56,13 @@ async def upload_file(request: Request, file_path: str, file: UploadFile, respon
         bucket_name=settings.s3_bucket_name,
         object_key=file_path,
         file_content=file_bytes,
-        content_type=file.content_type,
+        content_type=file_content.content_type,
     )
 
     return PutFileResponse(file_path=f"{file_path}", message=message)
 
 
-@ROUTER.get("/files")
+@ROUTER.get("/files", operation_id="get_files_list")
 async def list_files(
     request: Request,
     query_params: GetFilesQueryParams = Depends(),  # noqa: B008
@@ -84,7 +93,7 @@ async def list_files(
     return GetFilesResponse(files=file_metadata_objs, next_page_token=next_page_token if next_page_token else None)
 
 
-@ROUTER.head("/files/{file_path:path}")
+@ROUTER.head("/files/{file_path:path}", operation_id="retrieve_file")
 async def get_file_metadata(request: Request, file_path: str, response: Response) -> Response:
     """Retrieve file metadata.
 
@@ -104,7 +113,7 @@ async def get_file_metadata(request: Request, file_path: str, response: Response
     return response
 
 
-@ROUTER.get("/files/{file_path:path}")
+@ROUTER.get("/files/{file_path:path}", operation_id="get_file")
 async def get_file(
     request: Request,
     file_path: str,
@@ -122,7 +131,7 @@ async def get_file(
     )
 
 
-@ROUTER.delete("/files/{file_path:path}")
+@ROUTER.delete("/files/{file_path:path}", operation_id="delete_file")
 async def delete_file(
     request: Request,
     file_path: str,

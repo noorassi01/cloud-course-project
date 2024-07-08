@@ -13,6 +13,12 @@ run:
 run-mock:
 	bash run.sh run-mock
 
+install-generated-sdk:
+	bash run.sh install-generated-sdk
+
+generate-client-library:
+	bash run.sh generate-client-library
+
 clean:
 	bash run.sh clean
 

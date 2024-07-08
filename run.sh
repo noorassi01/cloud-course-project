@@ -24,6 +24,24 @@ function run {
     uvicorn files_api.main:APP --reload
 }
 
+function install-generated-sdk {
+    # setting editable_mode=strict fixes an issue with autocompletion
+    # in VS Code when installing editable packages. See:
+    # https://github.com/microsoft/pylance-release/issues/3473
+    python -m pip install --editable "$THIS_DIR/files-api-sdk" \
+        --config-settings editable_mode=strict
+}
+
+function generate-client-library {
+    # rm -rf files-api-sdk || true
+    docker run --rm \
+        -v ${PWD}:/local openapitools/openapi-generator-cli generate \
+        --generator-name python-pydantic-v1 \
+        --input-spec /local/openapi.json \
+        --output /local/files-api-sdk \
+        --package-name files_api_sdk
+}
+
 function run-mock {
     set +e
 

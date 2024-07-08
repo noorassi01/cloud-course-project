@@ -1,15 +1,20 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "FastAPI",
-    "version": "0.1.0"
+    "title": "Files API",
+    "summary": "Store and retrieve files.",
+    "description": "![Maintained by](https://img.shields.io/badge/Maintained%20by-MLOps%20Club-05998B?style=for-the-badge)\n\n| Helpful Links | Notes |\n| --- | --- |\n| [Course Homepage](https://mlops-club.org) | |\n| [Course Student Portal](https://courses.mlops-club.org) | |\n| [Course Materials Repo](https://github.com/mlops-club/python-on-aws-course.git) | `mlops-club/python-on-aws-course` |\n| [Course Reference Project Repo](https://github.com/mlops-club/cloud-course-project.git) | `mlops-club/cloud-course-project` |\n| [FastAPI Documentation](https://fastapi.tiangolo.com/) | |\n| [Learn to make \"badges\"](https://shields.io/) | Example: <img alt=\"Awesome Badge\" src=\"https://img.shields.io/badge/Awesome-\ud83d\ude0e-blueviolet?style=for-the-badge\"> |\n",
+    "version": "v1"
   },
   "paths": {
     "/files/{file_path}": {
       "put": {
+        "tags": [
+          "Files"
+        ],
         "summary": "Upload File",
         "description": "Upload a file.",
-        "operationId": "upload_file_files__file_path__put",
+        "operationId": "put_file",
         "parameters": [
           {
             "name": "file_path",
@@ -26,7 +31,7 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/Body_upload_file_files__file_path__put"
+                "$ref": "#/components/schemas/Body_put_file"
               }
             }
           }
@@ -42,6 +47,16 @@
               }
             }
           },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PutFileResponse"
+                }
+              }
+            },
+            "description": "Created"
+          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -55,9 +70,12 @@
         }
       },
       "head": {
+        "tags": [
+          "Files"
+        ],
         "summary": "Get File Metadata",
         "description": "Retrieve file metadata.\n\nNote: by convention, HEAD requests MUST NOT return a body in the response.",
-        "operationId": "get_file_metadata_files__file_path__head",
+        "operationId": "retrieve_file",
         "parameters": [
           {
             "name": "file_path",
@@ -91,9 +109,12 @@
         }
       },
       "get": {
+        "tags": [
+          "Files"
+        ],
         "summary": "Get File",
         "description": "Retrieve a file.",
-        "operationId": "get_file_files__file_path__get",
+        "operationId": "get_file",
         "parameters": [
           {
             "name": "file_path",
@@ -127,9 +148,12 @@
         }
       },
       "delete": {
+        "tags": [
+          "Files"
+        ],
         "summary": "Delete File",
         "description": "Delete a file.\n\nNOTE: DELETE requests MUST NOT return a body in the response.",
-        "operationId": "delete_file_files__file_path__delete",
+        "operationId": "delete_file",
         "parameters": [
           {
             "name": "file_path",
@@ -165,9 +189,12 @@
     },
     "/files": {
       "get": {
+        "tags": [
+          "Files"
+        ],
         "summary": "List Files",
         "description": "List files with pagination.",
-        "operationId": "list_files_files_get",
+        "operationId": "get_files_list",
         "parameters": [
           {
             "name": "page_size",
@@ -242,34 +269,38 @@
   },
   "components": {
     "schemas": {
-      "Body_upload_file_files__file_path__put": {
+      "Body_put_file": {
         "properties": {
-          "file": {
+          "file_content": {
             "type": "string",
             "format": "binary",
-            "title": "File"
+            "title": "File Content"
           }
         },
         "type": "object",
         "required": [
-          "file"
+          "file_content"
         ],
-        "title": "Body_upload_file_files__file_path__put"
+        "title": "Body_put_file"
       },
       "FileMetadata": {
         "properties": {
           "file_path": {
             "type": "string",
-            "title": "File Path"
+            "title": "File Path",
+            "description": "The path of the file.",
+            "example": "path/to/pyproject.toml"
           },
           "last_modified": {
             "type": "string",
             "format": "date-time",
-            "title": "Last Modified"
+            "title": "Last Modified",
+            "description": "The last modified date of the file."
           },
           "size_bytes": {
             "type": "integer",
-            "title": "Size Bytes"
+            "title": "Size Bytes",
+            "description": "The size of the file in Bytes."
           }
         },
         "type": "object",
@@ -278,7 +309,8 @@
           "last_modified",
           "size_bytes"
         ],
-        "title": "FileMetadata"
+        "title": "FileMetadata",
+        "description": "Metadata of a file."
       },
       "GetFilesResponse": {
         "properties": {
@@ -287,7 +319,8 @@
               "$ref": "#/components/schemas/FileMetadata"
             },
             "type": "array",
-            "title": "Files"
+            "title": "Files",
+            "description": "List of files that were added"
           },
           "next_page_token": {
             "anyOf": [
@@ -298,7 +331,8 @@
                 "type": "null"
               }
             ],
-            "title": "Next Page Token"
+            "title": "Next Page Token",
+            "description": "The token for the next page"
           }
         },
         "type": "object",
@@ -306,7 +340,23 @@
           "files",
           "next_page_token"
         ],
-        "title": "GetFilesResponse"
+        "title": "GetFilesResponse",
+        "description": "Response model for `GET /files`.",
+        "example": {
+          "files": [
+            {
+              "file_path": "path/to/pyproject.toml",
+              "last_modified": "2022-01-01T00:00:00Z",
+              "size_bytes": 512
+            },
+            {
+              "file_path": "path/to/Makefile",
+              "last_modified": "2022-01-01T00:00:00Z",
+              "size_bytes": 256
+            }
+          ],
+          "next_page_token": "next_page_token_example"
+        }
       },
       "HTTPValidationError": {
         "properties": {
@@ -325,11 +375,14 @@
         "properties": {
           "file_path": {
             "type": "string",
-            "title": "File Path"
+            "title": "File Path",
+            "description": "The path to the file",
+            "example": "path/to/pyproject.toml"
           },
           "message": {
             "type": "string",
-            "title": "Message"
+            "title": "Message",
+            "description": "The message listed when adding a file"
           }
         },
         "type": "object",
@@ -337,7 +390,8 @@
           "file_path",
           "message"
         ],
-        "title": "PutFileResponse"
+        "title": "PutFileResponse",
+        "description": "Response model for `PUT /files/:file_path`."
       },
       "ValidationError": {
         "properties": {
