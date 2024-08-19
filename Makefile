@@ -6,6 +6,8 @@
 
 build:
 	bash run.sh build
+deploy-lamdba: clean 
+	bash run.sh deploy-lambda
 
 run:
 	bash run.sh run

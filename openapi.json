@@ -3,7 +3,7 @@
   "info": {
     "title": "Files API",
     "summary": "Store and retrieve files.",
-    "description": "![Maintained by](https://img.shields.io/badge/Maintained%20by-MLOps%20Club-05998B?style=for-the-badge)\n\n| Helpful Links | Notes |\n| --- | --- |\n| [Course Homepage](https://mlops-club.org) | |\n| [Course Student Portal](https://courses.mlops-club.org) | |\n| [Course Materials Repo](https://github.com/mlops-club/python-on-aws-course.git) | `mlops-club/python-on-aws-course` |\n| [Course Reference Project Repo](https://github.com/mlops-club/cloud-course-project.git) | `mlops-club/cloud-course-project` |\n| [FastAPI Documentation](https://fastapi.tiangolo.com/) | |\n| [Learn to make \"badges\"](https://shields.io/) | Example: <img alt=\"Awesome Badge\" src=\"https://img.shields.io/badge/Awesome-\ud83d\ude0e-blueviolet?style=for-the-badge\"> |\n",
+    "description": "![Maintained by: Noor Assi](https://img.shields.io/badge/Maintained%20by-MLOps%20Club-05998B?style=for-the-badge)\n\n| Helpful Links | Notes |\n| --- | --- |\n| [Course Homepage](https://mlops-club.org) | |\n| [Course Student Portal](https://courses.mlops-club.org) | |\n| [Course Materials Repo](https://github.com/mlops-club/python-on-aws-course.git) | `mlops-club/python-on-aws-course` |\n| [Course Reference Project Repo](https://github.com/mlops-club/cloud-course-project.git) | `mlops-club/cloud-course-project` |\n| [FastAPI Documentation](https://fastapi.tiangolo.com/) | |\n| [Learn to make \"badges\"](https://shields.io/) | Example: <img alt=\"Awesome Badge\" src=\"https://img.shields.io/badge/Awesome-\ud83d\ude0e-blueviolet?style=for-the-badge\"> |\n",
     "version": "v1"
   },
   "paths": {
@@ -14,7 +14,7 @@
         ],
         "summary": "Upload File",
         "description": "Upload a file.",
-        "operationId": "put_file",
+        "operationId": "Files-upload_file",
         "parameters": [
           {
             "name": "file_path",
@@ -31,7 +31,7 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/Body_put_file"
+                "$ref": "#/components/schemas/Body_Files-upload_file"
               }
             }
           }
@@ -269,7 +269,7 @@
   },
   "components": {
     "schemas": {
-      "Body_put_file": {
+      "Body_Files-upload_file": {
         "properties": {
           "file_content": {
             "type": "string",
@@ -281,7 +281,7 @@
         "required": [
           "file_content"
         ],
-        "title": "Body_put_file"
+        "title": "Body_Files-upload_file"
       },
       "FileMetadata": {
         "properties": {

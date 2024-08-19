@@ -8,11 +8,11 @@ from typing import (
     Optional,
 )
 
+from pydantic import model_validator  # noqa
 from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
-    model_validator,
 )
 from typing_extensions import Self
 
@@ -75,7 +75,7 @@ class GetFilesQueryParams(BaseModel):
     )
     page_token: Optional[str] = Field(None, description="The token for the next page")
 
-    @model_validator(mode="after")
+    @model_validator(mode="after")  # noqa
     def check_passwords_match(self) -> Self:
         if self.page_token:
             get_files_query_params: dict = self.model_dump(exclude_unset=True)

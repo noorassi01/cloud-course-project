@@ -5,9 +5,9 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**delete_file**](FilesApi.md#delete_file) | **DELETE** /files/{file_path} | Delete File
+[**files_upload_file**](FilesApi.md#files_upload_file) | **PUT** /files/{file_path} | Upload File
 [**get_file**](FilesApi.md#get_file) | **GET** /files/{file_path} | Get File
 [**get_files_list**](FilesApi.md#get_files_list) | **GET** /files | List Files
-[**put_file**](FilesApi.md#put_file) | **PUT** /files/{file_path} | Upload File
 [**retrieve_file**](FilesApi.md#retrieve_file) | **HEAD** /files/{file_path} | Get File Metadata
 
 
@@ -74,6 +74,77 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **files_upload_file**
+> PutFileResponse files_upload_file(file_path, file_content)
+
+Upload File
+
+Upload a file.
+
+### Example
+
+```python
+import time
+import os
+import files_api_sdk
+from files_api_sdk.models.put_file_response import PutFileResponse
+from files_api_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = files_api_sdk.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with files_api_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = files_api_sdk.FilesApi(api_client)
+    file_path = 'file_path_example' # str | 
+    file_content = None # bytearray | 
+
+    try:
+        # Upload File
+        api_response = api_instance.files_upload_file(file_path, file_content)
+        print("The response of FilesApi->files_upload_file:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling FilesApi->files_upload_file: %s\n" % e)
+```
+
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **file_path** | **str**|  | 
+ **file_content** | **bytearray**|  | 
+
+### Return type
+
+[**PutFileResponse**](PutFileResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**201** | Created |  -  |
 **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -213,77 +284,6 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **put_file**
-> PutFileResponse put_file(file_path, file_content)
-
-Upload File
-
-Upload a file.
-
-### Example
-
-```python
-import time
-import os
-import files_api_sdk
-from files_api_sdk.models.put_file_response import PutFileResponse
-from files_api_sdk.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to http://localhost
-# See configuration.py for a list of all supported configuration parameters.
-configuration = files_api_sdk.Configuration(
-    host = "http://localhost"
-)
-
-
-# Enter a context with an instance of the API client
-with files_api_sdk.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = files_api_sdk.FilesApi(api_client)
-    file_path = 'file_path_example' # str | 
-    file_content = None # bytearray | 
-
-    try:
-        # Upload File
-        api_response = api_instance.put_file(file_path, file_content)
-        print("The response of FilesApi->put_file:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling FilesApi->put_file: %s\n" % e)
-```
-
-
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **file_path** | **str**|  | 
- **file_content** | **bytearray**|  | 
-
-### Return type
-
-[**PutFileResponse**](PutFileResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**201** | Created |  -  |
 **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

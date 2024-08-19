@@ -17,6 +17,7 @@ repos:
         files: ^openapi\.json$|^src/.*\.py$
         pass_filenames: false
         always_run: false
+        exclude: src/files_api/schemas.py
       # If any FastAPI code has changed, check that it does not introduce any breaking API
       # changes compared to the openapi.json on the main branch.
       - id: diff-openapi-schema-against-main

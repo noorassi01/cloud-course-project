@@ -1,5 +1,5 @@
 # files-api-sdk
-![Maintained by](https://img.shields.io/badge/Maintained%20by-MLOps%20Club-05998B?style=for-the-badge)
+![Maintained by: Noor Assi](https://img.shields.io/badge/Maintained%20by-MLOps%20Club-05998B?style=for-the-badge)
 
 | Helpful Links | Notes |
 | --- | --- |
@@ -97,9 +97,9 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *FilesApi* | [**delete_file**](docs/FilesApi.md#delete_file) | **DELETE** /files/{file_path} | Delete File
+*FilesApi* | [**files_upload_file**](docs/FilesApi.md#files_upload_file) | **PUT** /files/{file_path} | Upload File
 *FilesApi* | [**get_file**](docs/FilesApi.md#get_file) | **GET** /files/{file_path} | Get File
 *FilesApi* | [**get_files_list**](docs/FilesApi.md#get_files_list) | **GET** /files | List Files
-*FilesApi* | [**put_file**](docs/FilesApi.md#put_file) | **PUT** /files/{file_path} | Upload File
 *FilesApi* | [**retrieve_file**](docs/FilesApi.md#retrieve_file) | **HEAD** /files/{file_path} | Get File Metadata
 
 

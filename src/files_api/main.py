@@ -27,7 +27,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         version="v1",  # a fancier version would read the semver from pkg metadata
         description=dedent(
             """\
-        ![Maintained by](https://img.shields.io/badge/Maintained%20by-MLOps%20Club-05998B?style=for-the-badge)
+        ![Maintained by: Noor Assi](https://img.shields.io/badge/Maintained%20by-MLOps%20Club-05998B?style=for-the-badge)
 
         | Helpful Links | Notes |
         | --- | --- |
@@ -40,6 +40,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         """
         ),
         docs_url="/",  # its easier to find the docs when they live on the base url
+        root_path="/prod",
         generate_unique_id_function=custom_generate_unique_id,
     )
 
